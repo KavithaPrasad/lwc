@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 
 import Container from 'x/container';
+import ParentSpecialized from 'x/parentSpecialized';
 
 /**
  <div>
@@ -275,6 +276,21 @@ describe('synthetic shadow', () => {
             expect(slottedNode.parentNode.tagName).toBe('X-WITH-SLOT');
         });
 
+        it('should preserve parentNode behavior when node was manually inserted', () => {
+            // this is a specialized test only for parentNode and parentElement
+            const lwcElem = createElement('x-parent-specialized', { is: ParentSpecialized });
+            const containingElement = document.createElement('div');
+            containingElement.appendChild(lwcElem);
+            document.body.appendChild(containingElement);
+
+            const lwcRenderedNode = lwcElem.shadowRoot.querySelector('.lwc-rendered');
+            const manualRenderedNode = lwcElem.shadowRoot.querySelector('.manual-rendered');
+
+            expect(lwcRenderedNode.parentNode).toBe(lwcElem.shadowRoot);
+            // is returning the custom element instead of the shadow root
+            expect(manualRenderedNode.parentNode).toBe(lwcElem);
+        });
+
         it('should preserve behaviour for parentElement', () => {
             expect(elementOutsideLWC.parentElement.tagName).toBe('BODY');
             expect(rootLwcElement.parentElement.tagName).toBe('DIV');
@@ -289,6 +305,21 @@ describe('synthetic shadow', () => {
 
             // Note: check, but this is may be difference with the native shadow
             expect(slottedNode.parentElement.tagName).toBe('X-WITH-SLOT');
+        });
+
+        it('should preserve parentElement behavior when node was manually inserted', () => {
+            // this is a specialized test only for parentNode and parentElement
+            const lwcElem = createElement('x-parent-specialized', { is: ParentSpecialized });
+            const containingElement = document.createElement('div');
+            containingElement.appendChild(lwcElem);
+            document.body.appendChild(containingElement);
+
+            const lwcRenderedNode = lwcElem.shadowRoot.querySelector('.lwc-rendered');
+            const manualRenderedNode = lwcElem.shadowRoot.querySelector('.manual-rendered');
+
+            expect(lwcRenderedNode.parentElement).toBe(null);
+            // is returning the custom element instead of the shadow root
+            expect(manualRenderedNode.parentElement).toBe(lwcElem);
         });
     });
 });
