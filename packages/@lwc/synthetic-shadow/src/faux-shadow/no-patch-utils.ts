@@ -7,7 +7,7 @@
 import { isHostElement } from './shadow-root';
 import { getAllMatches, getNodeOwner, getAllSlottedMatches } from './traverse';
 import { ArrayFilter, ArraySlice, isNull, isUndefined } from '@lwc/shared';
-import { getNodeKey, getNodeOwnerKey } from './node';
+import { getNodeKey, getNodeOwnerKey } from '../shared/node-ownership';
 import { isGlobalPatchingSkipped } from '../shared/utils';
 
 export function getNonPatchedFilteredArrayOfNodes<T extends Node>(
