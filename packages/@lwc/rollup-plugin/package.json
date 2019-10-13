@@ -7,7 +7,7 @@
     "scripts": {
         "test": "jest"
     },
-    "files": [
+    "file": [
         "src/*.js"
     ],
     "devDependencies": {
